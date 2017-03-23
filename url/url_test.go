@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"os"
 )
 
 const testTag = "yu81-22"
@@ -69,9 +68,8 @@ func TestToSimpleAmazonLinkWithAffiletate(t *testing.T) {
 }
 
 func TestShortenURLWithBitly(t *testing.T) {
-	apiKey := os.Getenv("BITLY_API_KEY")
-	clientSecret := os.Getenv("BITLY_CLIENT_SECRET")
-	shorten, err := ShortenURLWithBitly("https://www.google.co.jp", apiKey, "" , clientSecret)
+	credential := GetBitlyCredentials()
+	shorten, err := ShortenURLWithBitly("https://www.google.co.jp", credential.APIKey, "" , credential.ClientSecret, credential.Login)
 	assert.NoError(t, err)
 	assert.NotEmpty(t, shorten)
 }

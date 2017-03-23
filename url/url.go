@@ -1,6 +1,10 @@
 package url
 
-import "regexp"
+import (
+	"os"
+	"regexp"
+)
+
 const amazonDpBase = "https://www.amazon.co.jp/dp/"
 
 var ASINRegex = regexp.MustCompile("(B[A-Z0-9]{9})|([0-9]{10})")
@@ -34,3 +38,19 @@ func ToSimpleAmazonLink(link string) string {
 func ToSimpleAmazonLinkWithAffiliate(link, tag string) string {
 	return CreateAmazonJpURLFromASINWithAffiliate(ExtractASIN(link), tag)
 }
+func GetBitlyCredentials() BitlyCredential {
+	return BitlyCredential{
+		APIKey:       os.Getenv("BITLY_API_KEY"),
+		ClientSecret: os.Getenv("BITLY_CLIENT_SECRET"),
+		Login:        os.Getenv("BITLY_LOGIN_USER"),
+		ClientID:     os.Getenv("BITLY_API_CLIENT_ID"),
+	}
+}
+
+type BitlyCredential struct {
+	APIKey       string
+	ClientSecret string
+	ClientID     string
+	Login        string // bitly username.
+}
+
