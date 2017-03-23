@@ -19,28 +19,28 @@ var (
 
 func TestCreateAmazonJpURLFromASIN(t *testing.T) {
 	for _, s := range okASINCases {
-		assert.Equal(t, "https://www.amazon.co.jp/dp/"+s, CreateAmazonJpURLFromASIN(s))
+		assert.Equal(t, amazonDpBase+s, CreateAmazonJpURLFromASIN(s))
 	}
 	for _, s := range ngASINCases {
-		assert.Equal(t, "https://www.amazon.co.jp/dp/"+s, CreateAmazonJpURLFromASIN(s))
+		assert.Equal(t, amazonDpBase+s, CreateAmazonJpURLFromASIN(s))
 	}
 }
 
 func TestCreateAmazonJpURLFromASINWithAffiliate(t *testing.T) {
 	for _, s := range okASINCases {
-		assert.Equal(t, "https://www.amazon.co.jp/dp/"+s+"/?tag="+testTag, CreateAmazonJpURLFromASINWithAffiliate(s, testTag))
+		assert.Equal(t, amazonDpBase+s+"/?tag="+testTag, CreateAmazonJpURLFromASINWithAffiliate(s, testTag))
 	}
 	for _, s := range ngASINCases {
-		assert.Equal(t, "https://www.amazon.co.jp/dp/"+s+"/?tag="+testTag, CreateAmazonJpURLFromASINWithAffiliate(s, testTag))
+		assert.Equal(t, amazonDpBase+s+"/?tag="+testTag, CreateAmazonJpURLFromASINWithAffiliate(s, testTag))
 	}
 }
 
 func TestExtractASIN(t *testing.T) {
 	for _, s := range okASINCases {
-		assert.Equal(t, "https://www.amazon.co.jp/dp/"+s, CreateAmazonJpURLFromASIN(s))
+		assert.Equal(t, amazonDpBase+s, CreateAmazonJpURLFromASIN(s))
 	}
 	for _, s := range ngASINCases {
-		assert.Equal(t, "https://www.amazon.co.jp/dp/"+s, CreateAmazonJpURLFromASIN(s))
+		assert.Equal(t, amazonDpBase+s, CreateAmazonJpURLFromASIN(s))
 	}
 }
 
@@ -57,12 +57,12 @@ func TestIsASIN(t *testing.T) {
 
 func TestToSimpleAmazonLink(t *testing.T) {
 	for _, s := range okURLCases {
-		assert.Equal(t, "https://www.amazon.co.jp/dp/"+ExtractASIN(s), ToSimpleAmazonLink(s))
+		assert.Equal(t, amazonDpBase+ExtractASIN(s), ToSimpleAmazonLink(s))
 	}
 }
 
 func TestToSimpleAmazonLinkWithAffiletate(t *testing.T) {
 	for _, s := range okURLCases {
-		assert.Equal(t, "https://www.amazon.co.jp/dp/"+ExtractASIN(s)+"/?tag="+testTag, ToSimpleAmazonLinkWithAffiliate(s, testTag))
+		assert.Equal(t, amazonDpBase+ExtractASIN(s)+"/?tag="+testTag, ToSimpleAmazonLinkWithAffiliate(s, testTag))
 	}
 }

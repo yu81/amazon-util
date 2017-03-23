@@ -1,6 +1,7 @@
 package url
 
 import "regexp"
+const amazonDpBase = "https://www.amazon.co.jp/dp/"
 
 var ASINRegex = regexp.MustCompile("(B[A-Z0-9]{9})|([0-9]{10})")
 
@@ -19,7 +20,7 @@ func ExtractASIN(u string) string {
 }
 
 func CreateAmazonJpURLFromASIN(id string) string {
-	return "https://www.amazon.co.jp/dp/" + id
+	return amazonDpBase + id
 }
 
 func CreateAmazonJpURLFromASINWithAffiliate(id, tag string) string {
