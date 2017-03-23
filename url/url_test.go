@@ -61,7 +61,7 @@ func TestToSimpleAmazonLink(t *testing.T) {
 	}
 }
 
-func TestToSimpleAmazonLinkWithAffiletate(t *testing.T) {
+func TestToSimpleAmazonLinkWithAffiliate(t *testing.T) {
 	for _, s := range okURLCases {
 		assert.Equal(t, amazonDpBase+ExtractASIN(s)+"/?tag="+testTag, ToSimpleAmazonLinkWithAffiliate(s, testTag))
 	}
