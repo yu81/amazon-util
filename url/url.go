@@ -1,8 +1,11 @@
 package url
 
 import (
+	"encoding/json"
 	"os"
 	"regexp"
+
+	"github.com/jphines/bitly-api-go"
 )
 
 const amazonDpBase = "https://www.amazon.co.jp/dp/"
@@ -38,6 +41,17 @@ func ToSimpleAmazonLink(link string) string {
 func ToSimpleAmazonLinkWithAffiliate(link, tag string) string {
 	return CreateAmazonJpURLFromASINWithAffiliate(ExtractASIN(link), tag)
 }
+
+func ShortenURLWithBitly(link, apiKey, token, secret, login string) (string, error) {
+	connection := bitly_api.NewConnectionOauth(token, "", apiKey, login, secret)
+	shorten, err := connection.Shorten(link)
+	if err != nil {
+		return "", err
+	}
+
+	return NewBitlyShortenResponseFromMap(shorten).URL, nil
+}
+
 func GetBitlyCredentials() BitlyCredential {
 	return BitlyCredential{
 		APIKey:       os.Getenv("BITLY_API_KEY"),
@@ -54,3 +68,21 @@ type BitlyCredential struct {
 	Login        string // bitly username.
 }
 
+type BitlyShortenResponse struct {
+	GlobalHash string `json:"global_hash"`
+	Hash       string `json:"hash"`
+	LongURL    string `json:"long_url"`
+	NewHash    int    `json:"new_hash"`
+	URL        string `json:"url"`
+}
+
+func NewBitlyShortenResponseFromMap(m map[string]interface{}) BitlyShortenResponse {
+	response := BitlyShortenResponse{}
+	j, err := json.Marshal(m)
+	if err != nil {
+		return response
+	}
+
+	json.Unmarshal(j, &response)
+	return response
+}
